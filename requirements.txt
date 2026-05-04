@@ -1,0 +1,10 @@
+langchain
+langchain-google-genai
+langchain-community
+upstash-redis
+python-dotenv
+fastapi
+uvicorn
+google-generativeai
+pydantic
+duckduckgo-search
