@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.routes import router as chat_router
-from src.api.search_routes import router as search_router
 from src.core.config import Config
 from src.core.container import container
 from src.services.interfaces import IChatbotService, IHistoryService, ISearchService
@@ -20,12 +19,19 @@ def register_services():
     # Register history service
     container.register(IHistoryService, UpstashHistoryService)
     
+    # Register search service (TinyFish) - only if API key is configured
+    if Config.TINYFISH_API_KEY:
+        container.register(ISearchService, TinyFishSearchService)
+    
     # Register chatbot service with its dependencies
     history_service = container.get(IHistoryService)
-    container.register_instance(IChatbotService, GeminiChatbotService(history_service))
-    
-    # Register search service (TinyFish)
-    container.register(ISearchService, TinyFishSearchService)
+    search_service = None
+    if Config.SEARCH_ENABLED and Config.TINYFISH_API_KEY:
+        try:
+            search_service = container.get(ISearchService)
+        except:
+            pass
+    container.register_instance(IChatbotService, GeminiChatbotService(history_service, search_service))
 
 
 def create_app() -> FastAPI:
@@ -60,7 +66,6 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(chat_router)
-    app.include_router(search_router)
 
     return app
 

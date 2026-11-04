@@ -8,6 +8,7 @@ class Config:
     UPSTASH_REDIS_REST_URL = os.getenv("UPSTASH_REDIS_REST_URL")
     UPSTASH_REDIS_REST_TOKEN = os.getenv("UPSTASH_REDIS_REST_TOKEN")
     TINYFISH_API_KEY = os.getenv("TINYFISH_API_KEY")
+    SEARCH_ENABLED = os.getenv("SEARCH_ENABLED", "False").lower() == "true"
     PORT = int(os.getenv("PORT", 5000))
     GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-pro-preview")
     DEBUG = os.getenv("DEBUG", "True").lower() == "true"
