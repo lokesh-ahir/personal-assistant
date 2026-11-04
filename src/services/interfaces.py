@@ -1,4 +1,24 @@
 from abc import ABC, abstractmethod
+from typing import List, Optional
+
+
+class ISearchService(ABC):
+    """Interface for search services."""
+
+    @abstractmethod
+    def search(self, query: str, limit: int = 10, **kwargs) -> dict:
+        """
+        Perform a web search.
+        
+        Args:
+            query: The search query string
+            limit: Maximum number of results to return
+            **kwargs: Additional search parameters
+            
+        Returns:
+            A dictionary containing search results
+        """
+        pass
 
 
 class IHistoryService(ABC):

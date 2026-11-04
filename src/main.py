@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.routes import router
+from src.api.routes import router as chat_router
+from src.api.search_routes import router as search_router
 from src.core.config import Config
 from src.core.container import container
-from src.services.interfaces import IChatbotService, IHistoryService
+from src.services.interfaces import IChatbotService, IHistoryService, ISearchService
 from src.services.history_service import UpstashHistoryService
 from src.services.chatbot_service import GeminiChatbotService
+from src.services.search_service import TinyFishSearchService
 
 
 def register_services():
@@ -21,6 +23,9 @@ def register_services():
     # Register chatbot service with its dependencies
     history_service = container.get(IHistoryService)
     container.register_instance(IChatbotService, GeminiChatbotService(history_service))
+    
+    # Register search service (TinyFish)
+    container.register(ISearchService, TinyFishSearchService)
 
 
 def create_app() -> FastAPI:
@@ -54,7 +59,8 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.include_router(router)
+    app.include_router(chat_router)
+    app.include_router(search_router)
 
     return app
 

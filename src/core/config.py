@@ -7,6 +7,7 @@ class Config:
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
     UPSTASH_REDIS_REST_URL = os.getenv("UPSTASH_REDIS_REST_URL")
     UPSTASH_REDIS_REST_TOKEN = os.getenv("UPSTASH_REDIS_REST_TOKEN")
+    TINYFISH_API_KEY = os.getenv("TINYFISH_API_KEY")
     PORT = int(os.getenv("PORT", 5000))
     GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-pro-preview")
     DEBUG = os.getenv("DEBUG", "True").lower() == "true"
