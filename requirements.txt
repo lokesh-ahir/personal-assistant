@@ -5,6 +5,4 @@ upstash-redis
 python-dotenv
 fastapi
 uvicorn
-google-generativeai
 pydantic
-duckduckgo-search
